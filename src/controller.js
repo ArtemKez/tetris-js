@@ -11,21 +11,21 @@ export default class Controller {
         this.view.renderStartScreen();
     }
 
-    ubdate() {
+    update() {
         this.game.movePieceDown();
-        this.ubdateView();
+        this.updateView();
     }
 
     play() {
         this.isPlaying = true;
         this.startTimer();
-        this.ubdateView();
+        this.updateView();
     }
 
     pause() {
         this.isPlaying = false;
         this.stopTimer();
-        this.ubdateView();
+        this.updateView();
     }
 
     reset() {
@@ -33,7 +33,7 @@ export default class Controller {
         this.play();
     }
 
-    ubdateView() {
+    updateView() {
         const state = this.game.getState();
 
         if (state.isGameOver) {
@@ -50,10 +50,9 @@ export default class Controller {
 
         if (!this.intervalId) {
             this.intervalId = setInterval(() => {
-                this.ubdate();
+                this.update();
             }, speed > 0 ? speed : 100);
         }
-
     }
 
     stopTimer() {

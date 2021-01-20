@@ -5,12 +5,15 @@ export default class Game {
         '3': 300,
         '4': 1200,
     }
+
     constructor() {
         this.reset();
     }
+
     get level() {
         return Math.floor(this.lines * 0.1);
     }
+
     getState() {
         const playfield = this.createPlayfield();
         const {y: pieceY, x: pieceX, blocks} = this.activePiece;
@@ -38,6 +41,7 @@ export default class Game {
             isGameOver: this.topOut
         };
     }
+
     reset() {
         this.score = 0;
         this.lines = 0;
@@ -46,6 +50,7 @@ export default class Game {
         this.activePiece = this.createPiece();
         this.nextPiece = this.createPiece();
     }
+
     createPlayfield() {
         const playfield = [];
 
@@ -164,7 +169,7 @@ export default class Game {
         }
     }
 
-    rotateBlocks(clocwise = true) {
+    rotateBlocks() {
         const blocks = this.activePiece.blocks;
         const length = blocks.length;
         const x = Math.floor(length / 2);
@@ -173,19 +178,17 @@ export default class Game {
         for (let i = 0; i < x; i++) {
             for (let j = i; j < y - i; j++) {
                 const temp = blocks[i][j];
-
-                if (clocwise) {
-                    blocks[i][j] = blocks[y - j][i];
-                    blocks[y - j][i] = blocks[y - i][y - j];
-                    blocks[y - i][y - j] = blocks[j][y - i];
-                    blocks[j][y - i] = temp;
-                } else {
-                    blocks[i][j] = blocks[y - j][i];
-                    blocks[y - j][i] = blocks[y - i][y - j]
-                    blocks[y - i][y - j] = blocks[y - j][i];
-                    blocks[y - j][i] = temp;
-                }
+                blocks[i][j] = blocks[y - j][i];
+                blocks[y - j][i] = blocks[y - i][y - j];
+                blocks[y - i][y - j] = blocks[j][y - i];
+                blocks[j][y - i] = temp;
             }
+            length
+        }
+        if (this.activePiece.x < 0) {
+            this.activePiece.x = 0
+        } else if (this.activePiece.x > this.playfield[0].length - this.activePiece.blocks.length) {
+            this.activePiece.x = this.playfield[0].length - this.activePiece.blocks.length
         }
     }
 
@@ -196,8 +199,7 @@ export default class Game {
             for (let x = 0; x < blocks[y].length; x++) {
                 if (blocks[y][x] &&
                     (
-                        this.playfield[pieceY] === undefined
-                        || this.playfield[pieceY + y] === undefined
+                        this.playfield[pieceY + y] === undefined
                         || this.playfield[pieceY + y][pieceX + x] === undefined
                         || this.playfield[pieceY + y][pieceX + x])
                 ) {
