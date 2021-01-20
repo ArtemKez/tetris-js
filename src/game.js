@@ -170,10 +170,14 @@ export default class Game {
     }
 
     rotateBlocks() {
-        const blocks = this.activePiece.blocks;
+        const blocks = this.cloneArray(this.activePiece.blocks);
         const length = blocks.length;
         const x = Math.floor(length / 2);
         const y = length - 1;
+
+        if (this.activePiece.y < 0 || this.activePiece.y > (20 - blocks.length)) {
+            return;
+        }
 
         for (let i = 0; i < x; i++) {
             for (let j = i; j < y - i; j++) {
@@ -183,13 +187,31 @@ export default class Game {
                 blocks[y - i][y - j] = blocks[j][y - i];
                 blocks[j][y - i] = temp;
             }
-            length
         }
+
+        for (let row = this.activePiece.y, i = 0; row < this.activePiece.y + blocks.length; row++, i++) {
+            for (let col = this.activePiece.x, j = 0; col < this.activePiece.x + blocks.length; col++, j++) {
+                let val = this.playfield[row][col]
+                if (!val || this.activePiece.blocks[i][j] || !blocks[i][j]) {
+                    continue;
+                }
+                return;
+            }
+        }
+        this.activePiece.blocks = blocks;
         if (this.activePiece.x < 0) {
             this.activePiece.x = 0
         } else if (this.activePiece.x > this.playfield[0].length - this.activePiece.blocks.length) {
             this.activePiece.x = this.playfield[0].length - this.activePiece.blocks.length
         }
+    }
+
+    cloneArray(arr) {
+        const new_arr = [];
+        for (let i = 0; i < arr.length; i++) {
+            new_arr.push([...arr[i]]);
+        }
+        return new_arr;
     }
 
     hasCollision() {

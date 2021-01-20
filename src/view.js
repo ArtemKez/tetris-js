@@ -13,7 +13,6 @@ export default class View {
         this.element = element;
         this.width = width;
         this.height = height;
-
         this.canvas = document.createElement('canvas');
         this.canvas.width = this.width;
         this.canvas.height = this.height;
@@ -29,12 +28,10 @@ export default class View {
 
         this.blockWidth = this.playfieldInnerWidth / columns;
         this.blockHeight = this.playfieldInnerHeight / rows;
-
         this.panelX = this.playfieldWidth + 10;
         this.panelY = 0;
         this.panelWidth = this.width / 3;
         this.panelHeight = this.height;
-
         this.element.appendChild(this.canvas);
     }
 
@@ -55,7 +52,6 @@ export default class View {
     renderPauseScreen() {
         this.context.fillStyle = 'rgba(0,0,0,0.75)';
         this.context.fillRect(0, 0, this.width, this.height);
-
         this.context.fillStyle = 'white';
         this.context.font = '18px "Press Start 2P"';
         this.context.textAlign = 'center';
@@ -63,9 +59,8 @@ export default class View {
         this.context.fillText('Press ENTER to Resume', this.width / 2, this.height / 2);
     }
 
-    renderEndScreen({ score }) {
+    renderEndScreen({score}) {
         this.clearScreen()
-
         this.context.fillStyle = 'white';
         this.context.font = '18px "Press Start 2P"';
         this.context.textAlign = 'center';
@@ -83,7 +78,6 @@ export default class View {
         for (let y = 0; y < playfield.length; y++) {
             for (let x = 0; x < playfield[y].length; x++) {
                 const block = playfield[y][x];
-
                 if (block) {
                     this.renderBlock(
                         this.playfieldX + (x * this.blockWidth),
@@ -97,7 +91,6 @@ export default class View {
         this.context.strokeStyle = 'white';
         this.context.lineWidth = this.playfieldBorderWidth;
         this.context.strokeRect(0, 0, this.playfieldWidth, this.playfieldHeight);
-
     }
 
     renderPanel({level, score, lines, nextPiece}) {
@@ -105,16 +98,14 @@ export default class View {
         this.context.textBaseline = 'top';
         this.context.fillStyle = 'white';
         this.context.font = '14px "Press Start 2P"';
-
         this.context.fillText(`Score: ${score}`, this.panelX, this.panelY + 0);
         this.context.fillText(`Lines: ${lines}`, this.panelX, this.panelY + 24);
         this.context.fillText(`Level: ${level}`, this.panelX, this.panelY + 48);
-        this.context.fillText('Next:', this.panelX, this.panelY +96);
+        this.context.fillText('Next:', this.panelX, this.panelY + 96);
 
         for (let y = 0; y < nextPiece.blocks.length; y++) {
             for (let x = 0; x < nextPiece.blocks[y].length; x++) {
                 const block = nextPiece.blocks[y][x]
-
                 if (block) {
                     this.renderBlock(
                         this.panelX + (x * this.blockWidth * 0.5),
@@ -128,12 +119,10 @@ export default class View {
         }
     }
 
-
     renderBlock(x, y, width, height, color) {
         this.context.fillStyle = color;
         this.context.strokeStyle = 'black';
         this.context.lineWidth = 2;
-
         this.context.fillRect(x, y, width, height);
         this.context.strokeRect(x, y, width, height);
     }

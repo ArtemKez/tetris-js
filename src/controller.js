@@ -14,6 +14,8 @@ export default class Controller {
     update() {
         this.game.movePieceDown();
         this.updateView();
+        console.log(this.game.getState());
+        console.log(this.game.activePiece);
     }
 
     play() {
